@@ -1,0 +1,8 @@
+.DS_Store
+*.db
+*.lock
+*.test
+*.out
+*.output
+**/build
+/vendor/*/
