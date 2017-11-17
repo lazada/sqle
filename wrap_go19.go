@@ -1,4 +1,4 @@
-// +build !go1.9
+// +build go1.9
 
 package sqle
 
@@ -31,6 +31,9 @@ func Wrap(object interface{}, options ...DBOption) (_ interface{}, err error) {
 	case *sql.Stmt:
 		db.DB = *(**sql.DB)(unsafe.Pointer(obj))
 		return &Stmt{Stmt: obj, db: db}, nil
+	case *sql.Conn:
+		db.DB = *(**sql.DB)(unsafe.Pointer(obj))
+		return &Conn{Conn: obj, db: db}, nil
 	}
 	return nil, nil
 }

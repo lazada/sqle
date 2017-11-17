@@ -82,13 +82,13 @@ func (tx *Tx) QueryRowContext(ctx context.Context, query string, args ...interfa
 // Stmt returns a transaction-specific prepared statement from an existing statement.
 // The returned statement operates within the transaction and will be closed
 // when the transaction has been committed or rolled back.
-func (tx *Tx) Stmt(stmt *Stmt) *Stmt {
+func (tx *Tx) Stmt(stmt *sql.Stmt) *Stmt {
 	return tx.StmtContext(context.Background(), stmt)
 }
 
 // StmtContext returns a transaction-specific prepared statement from an existing statement.
 // The returned statement operates within the transaction and will be closed
 // when the transaction has been committed or rolled back.
-func (tx *Tx) StmtContext(ctx context.Context, stmt *Stmt) *Stmt {
-	return &Stmt{Stmt: tx.Tx.StmtContext(ctx, stmt.Stmt), db: tx.db}
+func (tx *Tx) StmtContext(ctx context.Context, stmt *sql.Stmt) *Stmt {
+	return &Stmt{Stmt: tx.Tx.StmtContext(ctx, stmt), db: tx.db}
 }

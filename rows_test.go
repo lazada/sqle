@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/lazada/sqle/internal/testdata"
+	"github.com/lazada/sqle/testdata"
 )
 
 func TestRows_ScanMap(t *testing.T) {
@@ -19,9 +19,7 @@ func TestRows_ScanMap(t *testing.T) {
 	if err = rows.Scan(m); err != nil {
 		t.Errorf("(%T).Scan() failed: %s", rows, err)
 	}
-	if *debug {
-		t.Logf("%#v\n", m)
-	}
+	debugf(t, "%#v\n", m)
 }
 
 func BenchmarkRows_ScanMap(b *testing.B) {
@@ -55,9 +53,7 @@ func TestRows_ScanPtrMap(t *testing.T) {
 	if err = rows.Scan(&m); err != nil {
 		t.Errorf("(%T).Scan() failed: %s", rows, err)
 	}
-	if *debug {
-		t.Logf("%#v\n", m)
-	}
+	debugf(t, "%#v\n", m)
 }
 
 func TestRows_ScanVarMap(t *testing.T) {
@@ -72,9 +68,7 @@ func TestRows_ScanVarMap(t *testing.T) {
 	if err = rows.Scan(&id, &name, m); err != nil {
 		t.Errorf("(%T).Scan() failed: %s", rows, err)
 	}
-	if *debug {
-		t.Logf("id: %#v, name: %#v, %#v\n", id, name, m)
-	}
+	debugf(t, "id: %#v, name: %#v, %#v\n", id, name, m)
 }
 
 func TestRows_ScanAnonStruct(t *testing.T) {
@@ -95,9 +89,7 @@ func TestRows_ScanAnonStruct(t *testing.T) {
 	if err = rows.Scan(&u); err != nil {
 		t.Errorf("(%T).Scan() failed: %s", rows, err)
 	}
-	if *debug {
-		t.Logf("%#v\n", u)
-	}
+	debugf(t, "%#v\n", u)
 }
 
 func BenchmarkRows_ScanAnonStruct(b *testing.B) {
@@ -142,9 +134,7 @@ func TestRows_ScanVarAnonStruct(t *testing.T) {
 	if err = rows.Scan(&id, &name, &u); err != nil {
 		t.Errorf("(%T).Scan() failed: %s", rows, err)
 	}
-	if *debug {
-		t.Logf("id: %#v, name: %#v, %#v\n", id, name, u)
-	}
+	debugf(t, "id: %#v, name: %#v, %#v\n", id, name, u)
 }
 
 func TestRows_ScanVarAnonStructVar(t *testing.T) {
@@ -164,9 +154,7 @@ func TestRows_ScanVarAnonStructVar(t *testing.T) {
 	if err = rows.Scan(&id, &u, &updated); err != nil {
 		t.Errorf("(%T).Scan() failed: %s", rows, err)
 	}
-	if *debug {
-		t.Logf("id: %#v, updated: %#v, %#v\n", id, updated, u)
-	}
+	debugf(t, "id: %#v, updated: %#v, %#v\n", id, updated, u)
 }
 
 func TestRows_ScanAnonPart(t *testing.T) {
@@ -181,9 +169,7 @@ func TestRows_ScanAnonPart(t *testing.T) {
 	if err = rows.Scan(&p); err != nil {
 		t.Errorf("(%T).Scan() failed: %s", rows, err)
 	}
-	if *debug {
-		t.Logf("%#v\n", p)
-	}
+	debugf(t, "%#v\n", p)
 }
 
 func TestRows_ScanVarAnonPart(t *testing.T) {
@@ -198,9 +184,7 @@ func TestRows_ScanVarAnonPart(t *testing.T) {
 	if err = rows.Scan(&id, &p); err != nil {
 		t.Errorf("(%T).Scan() failed: %s", rows, err)
 	}
-	if *debug {
-		t.Logf("id: %#v, %#v\n", id, p)
-	}
+	debugf(t, "id: %#v, %#v\n", id, p)
 }
 
 func TestRows_ScanVarAnonPart2(t *testing.T) {
@@ -221,9 +205,7 @@ func TestRows_ScanVarAnonPart2(t *testing.T) {
 	if err = rows.Scan(&id, &p1, &p2); err != nil {
 		t.Errorf("(%T).Scan() failed: %s", rows, err)
 	}
-	if *debug {
-		t.Logf("id: %#v, %#v, %#v\n", id, p1, p2)
-	}
+	debugf(t, "id: %#v, %#v, %#v\n", id, p1, p2)
 }
 
 func TestRows_ScanStruct(t *testing.T) {
@@ -238,9 +220,7 @@ func TestRows_ScanStruct(t *testing.T) {
 	if err = rows.Scan(&u); err != nil {
 		t.Errorf("(%T).Scan() failed: %s", rows, err)
 	}
-	if *debug {
-		t.Logf("%#v\n", u)
-	}
+	debugf(t, "%#v\n", u)
 }
 
 func BenchmarkRows_ScanStruct(b *testing.B) {
@@ -274,7 +254,5 @@ func TestRows_ScanVarStruct(t *testing.T) {
 	if err = rows.Scan(&id, &u); err != nil {
 		t.Errorf("(%T).Scan() failed: %s", rows, err)
 	}
-	if *debug {
-		t.Logf("id: %#v, %#v\n", id, u)
-	}
+	debugf(t, "id: %#v, %#v\n", id, u)
 }

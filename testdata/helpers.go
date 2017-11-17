@@ -4,10 +4,12 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func Open() (*sql.DB, error) {
-	return sql.Open(`sqlite3`, `internal/testdata/testdata.db`)
+	return sql.Open(`sqlite3`, `testdata/testdata.db`)
 }
 
 func Populate(ctx context.Context, db *sql.DB, n int64) (err error) {

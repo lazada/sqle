@@ -6,8 +6,7 @@ import (
 	"time"
 )
 
-// Rows is the result of a query. Its cursor starts before the first row
-// of the result set.
+// Rows is the result of a query. Its cursor starts before the first row of the result set.
 type Rows struct {
 	*sql.Rows
 	db       *DB
@@ -35,8 +34,8 @@ func (r *Rows) Columns() ([]string, error) {
 	return r.columns, nil
 }
 
-// ColumnTypes returns column information such as column type, length,
-// and nullable. Some information may not be available from some drivers.
+// ColumnTypes returns column information such as column type, length, and nullable.
+// Some information may not be available from some drivers.
 func (r *Rows) ColumnTypes() ([]*sql.ColumnType, error) {
 	if r.err != nil {
 		return nil, r.err

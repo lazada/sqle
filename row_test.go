@@ -5,9 +5,7 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
-
-	"github.com/lazada/sqle/internal/testdata"
+	"github.com/lazada/sqle/testdata"
 )
 
 func TestRow_ScanMap(t *testing.T) {

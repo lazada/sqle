@@ -23,10 +23,10 @@ type structMap struct {
 func (m *structMap) alloc(ptr unsafe.Pointer) error {
 	for _, ctor := range m.ctors {
 		if ctor == nil {
-			return errors.New(`nil constructor`)
+			return ErrNilCtor
 		}
 		if ptr = ctor(ptr); ptr == nil {
-			return errors.New(`nil pointer`)
+			return ErrCtorRetNil
 		}
 	}
 	return nil
@@ -218,4 +218,6 @@ var (
 
 	ErrSrcNotPtr   = errors.New(`sqle: source is not a pointer`)
 	ErrSrcNotPtrTo = errors.New(`sqle: source is not a pointer to a structure`)
+	ErrNilCtor     = errors.New(`sqle: constructor is nil`)
+	ErrCtorRetNil  = errors.New(`sqle: constructor returned nil pointer`)
 )

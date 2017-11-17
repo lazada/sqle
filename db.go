@@ -6,17 +6,16 @@ import (
 )
 
 // DB is a database handle representing a pool of zero or more
-// underlying connections. It's safe for concurrent use by multiple
-// goroutines.
+// underlying connections. It's safe for concurrent use by multiple goroutines.
 //
 // The sql package creates and frees connections automatically; it
 // also maintains a free pool of idle connections. If the database has
 // a concept of per-connection state, such state can only be reliably
-// observed within a transaction. Once DB.Begin is called, the
-// returned Tx is bound to a single connection. Once Commit or
-// Rollback is called on the transaction, that transaction's
-// connection is returned to DB's idle connection pool. The pool size
-// can be controlled with SetMaxIdleConns.
+// observed within a transaction.
+// Once DB.Begin is called, the returned Tx is bound to a single connection.
+// Once Commit or Rollback is called on the transaction, that transaction's
+// connection is returned to DB's idle connection pool.
+// The pool size can be controlled with SetMaxIdleConns.
 type DB struct {
 	*sql.DB
 	*dbOptions
@@ -53,14 +52,13 @@ func (db *DB) Prepare(query string) (*Stmt, error) {
 // Multiple queries or executions may be run concurrently from the returned statement.
 // The caller must call the statement's Close method when the statement is no longer needed.
 //
-// The provided context is used for the preparation of the statement, not for the
-// execution of the statement.
+// The provided context is used for the preparation of the statement, not for the execution of the statement.
 func (db *DB) PrepareContext(ctx context.Context, query string) (*Stmt, error) {
 	stmt, err := db.DB.PrepareContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
-	return &Stmt{Stmt: stmt}, nil
+	return &Stmt{Stmt: stmt, db: db}, nil
 }
 
 // Query executes a query that returns rows, typically a SELECT.
@@ -80,15 +78,15 @@ func (db *DB) QueryContext(ctx context.Context, query string, args ...interface{
 }
 
 // QueryRow executes a query that is expected to return at most one row.
-// QueryRow always returns a non-nil value. Errors are deferred until
-// Row's Scan method is called.
+// QueryRow always returns a non-nil value.
+// Errors are deferred until Row's Scan method is called.
 func (db *DB) QueryRow(query string, args ...interface{}) *Row {
 	return db.QueryRowContext(context.Background(), query, args...)
 }
 
 // QueryRowContext executes a query that is expected to return at most one row.
-// QueryRowContext always returns a non-nil value. Errors are deferred until
-// Row's Scan method is called.
+// QueryRowContext always returns a non-nil value.
+// Errors are deferred until Row's Scan method is called.
 func (db *DB) QueryRowContext(ctx context.Context, query string, args ...interface{}) *Row {
 	rows, err := db.QueryContext(ctx, query, args...)
 	if err != nil {
@@ -97,17 +95,15 @@ func (db *DB) QueryRowContext(ctx context.Context, query string, args ...interfa
 	return &Row{rows: rows}
 }
 
-// Open opens a database specified by its database driver name and a
-// driver-specific data source name, usually consisting of at least a
-// database name and connection information.
+// Open opens a database specified by its database driver name and a driver-specific data source name,
+// usually consisting of at least a database name and connection information.
 //
-// Most users will open a database via a driver-specific connection
-// helper function that returns a *DB. No database drivers are included
-// in the Go standard library. See https://golang.org/s/sqldrivers for
+// Most users will open a database via a driver-specific connection helper function that returns a *DB.
+// No database drivers are included in the Go standard library. See https://golang.org/s/sqldrivers for
 // a list of third-party drivers.
 //
-// Open may just validate its arguments without creating a connection
-// to the database. To verify that the data source name is valid, call Ping.
+// Open may just validate its arguments without creating a connection to the database.
+// To verify that the data source name is valid, call Ping.
 //
 // The returned DB is safe for concurrent use by multiple goroutines
 // and maintains its own pool of idle connections. Thus, the Open
