@@ -5,5 +5,4 @@ before_install:
   - dep ensure
 
 go:
-  - 1.8
   - 1.9
