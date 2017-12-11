@@ -104,12 +104,12 @@ func selectMap(b *testing.B, limit int) {
 	for n := 0; n < b.N; n++ {
 		rows, err = db.Query(testdata.SelectUserLimitStmt, limit)
 		if err != nil {
-			b.Fatalf("(%t).Query() failed: %s", db, err)
+			b.Fatalf("(%T).Query() failed: %s", db, err)
 		}
 		for rows.Next() {
 			u = make(map[string]interface{})
 			if err = rows.Scan(u); err != nil {
-				b.Errorf("(%T).Scan() failed:", rows, err)
+				b.Errorf("(%T).Scan() failed: %s", rows, err)
 			}
 			users = append(users, u)
 		}
