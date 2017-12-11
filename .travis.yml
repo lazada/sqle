@@ -5,4 +5,8 @@ before_install:
   - dep ensure
 
 go:
+  - 1.8
   - 1.9
+
+script:
+  - go test $(go list ./... | grep -v /vendor/)
