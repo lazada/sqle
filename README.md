@@ -4,16 +4,26 @@
 The `sqle` package is an extension of the standard `database/sql` package.
 
 ## Features
-- fully implements the `database/sql` interface.
-- it is fast, sometimes very fast (has a minimum overhead).
-- `Scan` method can take composite types as arguments, such as structures (including nested ones), maps and slices.
+- fully implements the `database/sql` interface;
+- it is fast, sometimes very fast (has a minimum overhead);
+- `Scan` method can take composite types as arguments, such as pointers to structures (including nested ones), maps and slices;
 - `Columns` and `ColumnTypes` methods cache the returned result.
 
-## Installation
-```go get -u github.com/lazada/sqle```
+## Prerequisites
+This package requires Go 1.8 or later.
 
-## Usage examples
-Additional examples of usage are available in [rows_test.go](https://github.com/lazada/sqle/blob/master/rows_test.go) and [row_test.go](https://github.com/lazada/sqle/blob/master/row_test.go).
+## Installation
+```
+go get -u github.com/lazada/sqle
+```
+
+## Usage
+There are two ways of using this package:
+1. by replacing standard `database/sql` package with this package in your imports;
+2. by wrapping specific standard `database/sql` objects using the `Wrap` function.
+
+## Examples
+Additional examples of usage are available in [rows_test.go](https://github.com/lazada/sqle/blob/master/rows_test.go), [row_test.go](https://github.com/lazada/sqle/blob/master/row_test.go) and [wrap_test.go](https://github.com/lazada/sqle/blob/master/wrap_test.go).
 
 ### Working with structures
 As it was:
@@ -21,11 +31,11 @@ As it was:
 import "database/sql"
 
 type User struct {
-	Id      int32     `sql:"id"`
-	Name    string    `sql:"name"`
-	Email   string    `sql:"email"`
-	Created time.Time `sql:"created"`
-	Updated time.Time `sql:"updated"`
+    Id      int32
+    Name    string
+    Email   string
+    Created time.Time
+    Updated time.Time
 }
 
 db, err := sql.Open(`sqlite3`, `testdata/testdata.db`)
@@ -59,9 +69,9 @@ if err != nil {
     log.Fatalln(err)
 }
 var (
-	userId                   int32
-	userName, userEmail      string
-	userCreated, userUpdated time.Time
+    userId                   int32
+    userName, userEmail      string
+    userCreated, userUpdated time.Time
 )
 err = db.QueryRowContext(ctx, `SELECT * FROM users WHERE id = ?`, userId).
     Scan(&userId, &userName, &userEmail, &userCreated, &userUpdated)
