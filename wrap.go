@@ -21,6 +21,7 @@ import (
 	"unsafe"
 )
 
+// Wrap converts objects from the standard `database/sql` to the coresponding `sqle` objects.
 func Wrap(object interface{}, options ...DBOption) (_ interface{}, err error) {
 	db := &DB{dbOptions: &dbOptions{mapper: defaultMapper}}
 	for _, option := range options {

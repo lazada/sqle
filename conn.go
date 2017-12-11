@@ -87,8 +87,8 @@ func (c *Conn) QueryRowContext(ctx context.Context, query string, args ...interf
 }
 
 // Conn returns a single connection by either opening a new connection
-// or returning an existing connection from the connection pool. Conn will
-// block until either a connection is returned or ctx is canceled.
+// or returning an existing connection from the connection pool.
+// Conn will block until either a connection is returned or ctx is canceled.
 // Queries run on the same Conn will be run in the same database session.
 //
 // Every Conn must be returned to the database pool after use by calling Conn.Close.
