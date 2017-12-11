@@ -1,5 +1,4 @@
-# sqle
-[![Build Status](https://travis-ci.org/lazada/sqle.svg?branch=master)](https://travis-ci.org/lazada/sqle)
+# sqle [![GoDoc](https://godoc.org/github.com/lazada/sqle?status.png)](https://godoc.org/github.com/lazada/sqle) [![Build Status](https://travis-ci.org/lazada/sqle.svg?branch=master)](https://travis-ci.org/lazada/sqle)
 
 The `sqle` package is an extension of the standard `database/sql` package.
 
