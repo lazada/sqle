@@ -1,5 +1,4 @@
 # sqle [![GoDoc](https://godoc.org/github.com/lazada/sqle?status.png)](https://godoc.org/github.com/lazada/sqle) [![Build Status](https://travis-ci.org/lazada/sqle.svg?branch=master)](https://travis-ci.org/lazada/sqle)
-
 The `sqle` package is an extension of the standard `database/sql` package.
 
 ## Features
@@ -41,21 +40,36 @@ db, err := sql.Open(`sqlite3`, `testdata/testdata.db`)
 if err != nil {
     log.Fatalln(err)
 }
-
 user := new(User)
 
-db.QueryRowContext(ctx, `SELECT * FROM users WHERE id = ?`, userId).
+err = db.QueryRowContext(ctx, `SELECT * FROM users WHERE id = ?`, userId).
     Scan(&user.Id, &user.Name, &user.Email, &user.Created, &user.Updated)
+if err != nil {
+    log.Fatalln(err)
+}
 ```
 It is now:
 ```go
 import sql "github.com/lazada/sqle"
 
-// ...
+type User struct {
+	Id      int32     `sql:"id"`
+	Name    string    `sql:"name"`
+	Email   string    `sql:"email"`
+	Created time.Time `sql:"created"`
+	Updated time.Time `sql:"updated"`
+}
 
+db, err := sql.Open(`sqlite3`, `testdata/testdata.db`)
+if err != nil {
+    log.Fatalln(err)
+}
 user := new(User)
 
-db.QueryRowContext(ctx, `SELECT * FROM users WHERE id = ?`, userId).Scan(user)
+err = db.QueryRowContext(ctx, `SELECT * FROM users WHERE id = ?`, userId).Scan(user)
+if err != nil {
+    log.Fatalln(err)
+}
 ```
  
  ### Working with maps
