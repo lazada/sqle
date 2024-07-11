@@ -18,12 +18,11 @@ import (
 	"database/sql"
 	"database/sql/driver"
 	"errors"
+	"github.com/lazada/sqle/embed"
 	"reflect"
 	"sync"
 	"time"
 	"unsafe"
-
-	"github.com/lazada/sqle/embed"
 )
 
 type ctorFunc func(unsafe.Pointer) unsafe.Pointer
@@ -149,7 +148,7 @@ func (m *Mapper) inspect(parent *structMap, offset uintptr, typ reflect.Type) *s
 		if fieldtyp = field.Type; fieldtyp.Kind() == reflect.Ptr {
 			fieldtyp, isptr = fieldtyp.Elem(), ptrMask
 		}
-		if fieldtyp.Kind() == reflect.Struct && !scannable(fieldtyp) {
+		if fieldtyp.Kind() == reflect.Struct && !scannable(fieldtyp) && !scannable(reflect.PointerTo(fieldtyp)) {
 			if s = m.inspect(smap, field.Offset|isptr, fieldtyp); s != nil {
 				smap.aliases = append(smap.aliases, s.aliases...)
 				smap.fields = append(smap.fields, s.fields...)
